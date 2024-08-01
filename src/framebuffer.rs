@@ -9,13 +9,15 @@ pub struct Framebuffer {
 
 impl Framebuffer {
     pub fn new(width: usize, height: usize) -> Self {
-        Self {
+        let mut fb = Self {
             width,
             height,
             buffer: vec![0; width * height],
-            background_color: Color::black(),
+            background_color: Color::darkblue(),
             current_color: Color::white(),
-        }
+        };
+        fb.clear(); 
+        fb
     }
 
     pub fn clear(&mut self) {
@@ -33,13 +35,13 @@ impl Framebuffer {
 
     pub fn set_background_color(&mut self, color: Color) {
         self.background_color = color;
+        self.clear();
     }
 
     pub fn set_current_color(&mut self, color: Color) {
         self.current_color = color;
     }
 }
-
 pub fn count_live_neighbors(framebuffer: &Framebuffer, x: usize, y: usize) -> usize {
     let directions = [
         (-1, -1), (0, -1), (1, -1),
@@ -66,10 +68,14 @@ pub fn update_game(framebuffer: &mut Framebuffer) {
             new_buffer[idx] = match (is_alive, live_neighbors) {
                 (true, 2) | (true, 3) => 0xFFFFFF, // Sobrevive
                 (false, 3) => 0xFFFFFF,            // Se reproduce
-                _ => 0x000000,                     // Muere
+                _ => framebuffer.background_color.to_hex(), // Muere
             };
         }
     }
 
     framebuffer.buffer = new_buffer;
 }
+
+
+
+
