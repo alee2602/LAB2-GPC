@@ -15,7 +15,7 @@ fn main() {
     let mut framebuffer = Framebuffer::new(framebuffer_width, framebuffer_height);
 
     let mut window = Window::new(
-        "Simple Drawing - Lab",
+        "Conway's Game of Life - Lab 2",
         window_width,
         window_height,
         WindowOptions::default(),
