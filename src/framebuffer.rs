@@ -42,6 +42,7 @@ impl Framebuffer {
         self.current_color = color;
     }
 }
+
 pub fn count_live_neighbors(framebuffer: &Framebuffer, x: usize, y: usize) -> usize {
     let directions = [
         (-1, -1), (0, -1), (1, -1),
@@ -52,7 +53,7 @@ pub fn count_live_neighbors(framebuffer: &Framebuffer, x: usize, y: usize) -> us
     directions.iter().filter(|&&(dx, dy)| {
         let nx = x.wrapping_add(dx as usize);
         let ny = y.wrapping_add(dy as usize);
-        nx < framebuffer.width && ny < framebuffer.height && framebuffer.buffer[ny * framebuffer.width + nx] == 0xFFFFFF
+        nx < framebuffer.width && ny < framebuffer.height && framebuffer.buffer[ny * framebuffer.width + nx] != framebuffer.background_color.to_hex()
     }).count()
 }
 
@@ -63,18 +64,20 @@ pub fn update_game(framebuffer: &mut Framebuffer) {
         for x in 0..framebuffer.width {
             let live_neighbors = count_live_neighbors(framebuffer, x, y);
             let idx = y * framebuffer.width + x;
-            let is_alive = framebuffer.buffer[idx] == 0xFFFFFF;
+            let is_alive = framebuffer.buffer[idx] != framebuffer.background_color.to_hex();
 
             new_buffer[idx] = match (is_alive, live_neighbors) {
-                (true, 2) | (true, 3) => 0xFFFFFF, // Sobrevive
-                (false, 3) => 0xFFFFFF,            // Se reproduce
-                _ => framebuffer.background_color.to_hex(), // Muere
+                (true, 2) => 0x4535C1, 
+                (true, 3) => 0x478CCF, 
+                (false, 3) => 0x77E4C8, 
+                _ => framebuffer.background_color.to_hex(), 
             };
         }
     }
 
     framebuffer.buffer = new_buffer;
 }
+
 
 
 
