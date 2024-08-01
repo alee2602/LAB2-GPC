@@ -1,6 +1,6 @@
 # Conway's Game of Life
 
-
+![](https://github.com/alee2602/LAB2-GPC/blob/master/LAB2-GPC.gif)
 
 This project implements Conway's Game of Life using Rust and the Minifb library for real-time rendering.
 
