@@ -16,7 +16,7 @@ To run this project, you need to have Rust installed. You can install Rust from 
 
 ```bash
 git clone https://github.com/yalee2602/LAB2-GPC.git
-cd conways-game-of-life
+cd LAB2-GPC
 ```
 
 ### Run the project
